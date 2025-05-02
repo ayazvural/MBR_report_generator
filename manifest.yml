@@ -1,0 +1,12 @@
+definition_version: 1.0
+
+artifacts:
+  - streamlit_app
+
+repositories:
+  - name: MBR_report_generator
+    path: /
+    ref: main  # or 'master' depending on your repo
+
+streamlit:
+  file: streamlit_app/app.py
