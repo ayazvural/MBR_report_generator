@@ -7,20 +7,20 @@ def load_data(uploaded_file):
         df = pd.read_csv(uploaded_file)
 
         # --- Data Preprocessing --- 
-        required_cols = ['Created at', 'Last resolved at']
+        required_cols = ['Created at', 'Last closed at']
         for col in required_cols:
             if col not in df.columns:
                  raise KeyError(f"Missing required column: {col}")
 
         df['Created at'] = pd.to_datetime(df['Created at'], errors='coerce')
-        df['Last resolved at'] = pd.to_datetime(df['Last resolved at'], errors='coerce')
+        df['Last closed at'] = pd.to_datetime(df['Last closed at'], errors='coerce')
 
         # Drop rows where 'Created at' is NaT after conversion
         df.dropna(subset=['Created at'], inplace=True)
 
         # Create derived columns
         df['Year-Month'] = df['Created at'].dt.strftime('%B %Y')
-        df['Hours Open'] = (df['Last resolved at'] - df['Created at']).dt.total_seconds() / 3600
+        df['Hours Open'] = (df['Last closed at'] - df['Created at']).dt.total_seconds() / 3600
         df.loc[df['Hours Open'] < 0, 'Hours Open'] = pd.NA 
         df['Open More than 1 week'] = df['Hours Open'] > 168
         # --- End Preprocessing ---
@@ -66,7 +66,7 @@ def calculate_metrics(df, close_time_target_hours=72):
 
     monthly_metrics = df_calc.groupby('Year-Month', observed=False).agg(
         total_tickets_opened=('Created at', 'count'),
-        total_tickets_resolved=('Last resolved at', 'count'),
+        total_tickets_resolved=('Last closed at', 'count'),
         avg_close_time_hours=('Hours Open', 'mean'),
         median_close_time_hours=('Hours Open', 'median'),
         tickets_meeting_target=('Hours Open', lambda x: (x <= close_time_target_hours).sum()),
