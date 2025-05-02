@@ -5,18 +5,17 @@ This Streamlit application generates a monthly customer support report from a ra
 ## Project Structure
 
 ```
-support-report/
-│
-├── app.py                   # Main Streamlit application script
-├── utils/                   # Helper modules
-│   ├── filters.py           # Sidebar filter logic
-│   ├── charts.py            # Chart generation functions
-│   └── metrics.py           # Data loading, processing, and metric calculations
-├── assets/                  # (Optional) Static files like logos or custom CSS
-├── data/                    # (Optional) Placeholder for sample data or instructions
-├── requirements.txt         # Python dependencies
-├── README.md                # This file
-└── .gitignore               # Git ignore file
+MBR_report_generator/
+├── manifest.yml                  # Snowflake app config
+├── setup.sql                     # (Optional) roles/warehouse setup script
+├── streamlit_app/                # App source code
+│   ├── app.py                    # Your main Streamlit app
+│   ├── utils/
+│   │   ├── filters.py
+│   │   ├── charts.py
+│   │   └── metrics.py
+│   ├── requirements.txt
+│   └── __init__.py
 ```
 
 ## Setup
