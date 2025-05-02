@@ -121,7 +121,7 @@ def plot_escalation_distribution(df):
 
 def plot_top_customers(df):
     """Generates the Top Customers by Ticket Volume bar chart."""
-    customer_col = 'Companies (name)' # Ensure this is the correct column name
+    customer_col = 'Companies (ID)' # Ensure this is the correct column name
     if customer_col not in df.columns:
         return None
         
