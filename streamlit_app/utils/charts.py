@@ -1,6 +1,7 @@
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
+import streamlit as st
 
 def plot_ticket_health(metrics_df):
     """Generates the Ticket Health (Opened/Resolved/ % Closed) chart."""
@@ -120,13 +121,15 @@ def plot_escalation_distribution(df):
     return fig
 
 def plot_top_customers(df):
-    """Generates the Top Customers by Ticket Volume bar chart."""
-    customer_col = 'Companies (ID)' # Ensure this is the correct column name
-    if customer_col not in df.columns:
+    """Generates the Top Customers by Ticket Volume bar chart using Company Names."""
+    customer_name_column = 'Companies (name)'
+    if customer_name_column not in df.columns:
+        st.caption(f"Cannot generate Top Customers chart: Column '{customer_name_column}' not found in the uploaded data.")
         return None
-        
-    top_customers = df[customer_col].value_counts().dropna().head(10)
+
+    top_customers = df[customer_name_column].value_counts().dropna().head(10)
     if top_customers.empty:
+        st.caption("No customer ticket data available to display for Top Customers.")
         return None
 
     customer_df = top_customers.rename_axis("Company Name").reset_index(name="Ticket Count")
