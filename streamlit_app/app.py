@@ -97,9 +97,13 @@ def main():
     col_viz1, col_viz2 = st.columns(2)
     with col_viz1:
         fig_health = charts.plot_ticket_health(monthly_metrics_data)
+        fig_health.update_layout(title='')  # Remove Plotly's internal title
+        st.markdown('<h4 style="text-align: center;">Ticket Health by Year-Month</h4>', unsafe_allow_html=True)
         st.plotly_chart(fig_health, use_container_width=True)
     with col_viz2:
         fig_time = charts.plot_close_time(monthly_metrics_data)
+        fig_time.update_layout(title='')  # Remove Plotly's internal title
+        st.markdown('<h4 style="text-align: center;">Average and Median Close Time by Year-Month</h4>', unsafe_allow_html=True)
         st.plotly_chart(fig_time, use_container_width=True)
 
     # --- Top Ticket Types --- 
@@ -136,12 +140,16 @@ def main():
     with col_pie1:
         fig_priority = charts.plot_priority_distribution(df_filtered)
         if fig_priority:
+            fig_priority.update_layout(title='')  # Remove Plotly's internal title
+            st.markdown('<h4 style="text-align: center;">Ticket Priority Distribution</h4>', unsafe_allow_html=True)
             st.plotly_chart(fig_priority, use_container_width=True)
         else:
             st.caption(f"Priority chart could not be generated. Check column '{charts.priority_col}'.")
     with col_pie2:
         fig_escalation = charts.plot_escalation_distribution(df_filtered)
         if fig_escalation:
+            fig_escalation.update_layout(title='')  # Remove Plotly's internal title
+            st.markdown('<h4 style="text-align: center;">Escalation Distribution</h4>', unsafe_allow_html=True)
             st.plotly_chart(fig_escalation, use_container_width=True)
         else:
             # Check if columns were missing vs. just no data
@@ -153,7 +161,8 @@ def main():
     # --- Top Customers --- 
     fig_customers = charts.plot_top_customers(df_filtered)
     if fig_customers:
-        st.header("Top Customers by Ticket Volume")
+        st.markdown('<h4 style="text-align: center;">Top Customers by Ticket Volume</h4>', unsafe_allow_html=True)
+        fig_customers.update_layout(title='')
         st.plotly_chart(fig_customers, use_container_width=True)
     # else: # Optional: Add caption if chart failed
     #     st.caption("Could not generate Top Customers chart.") 
@@ -161,7 +170,8 @@ def main():
     # --- Agent Closures --- 
     fig_agent_closures = charts.plot_agent_closures(df_filtered)
     if fig_agent_closures:
-        st.header("Ticket Closures by Agent")
+        st.markdown('<h4 style="text-align: center;">Ticket Closures by Agent</h4>', unsafe_allow_html=True)
+        fig_agent_closures.update_layout(title='')
         st.plotly_chart(fig_agent_closures, use_container_width=True)
     # else: # Optional: Add caption if chart failed
     #     st.caption("Could not generate Agent Closures chart.")
